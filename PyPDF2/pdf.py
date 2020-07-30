@@ -693,7 +693,7 @@ class PdfFileWriter(object):
 
         return bookmarkRef
 
-    def addBookmark(self, title, pagenum, parent=None, color=None, bold=False, italic=False, fit='/Fit', *args):
+    def addBookmark(self, title, pagenum, parent=None, color=None, bold=False, italic=False, fit='/Fit', collapse=True, *args):
         """
         Add a bookmark to this PDF file.
 
@@ -750,7 +750,7 @@ class PdfFileWriter(object):
         bookmarkRef = self._addObject(bookmark)
 
         parent = parent.getObject()
-        parent.addChild(bookmarkRef, self)
+        parent.addChild(bookmarkRef, self, collapse)
 
         return bookmarkRef
 

@@ -664,7 +664,7 @@ class TreeObject(DictionaryObject):
                 raise StopIteration
             child = child['/Next']
 
-    def addChild(self, child, pdf):
+    def addChild(self, child, pdf, collapse=True):
         childObj = child.getObject()
         child = pdf.getReference(childObj)
         assert isinstance(child, IndirectObject)
@@ -677,7 +677,11 @@ class TreeObject(DictionaryObject):
             prev = self['/Last']
 
         self[NameObject('/Last')] = child
-        self[NameObject('/Count')] = NumberObject(self[NameObject('/Count')] + 1)
+        # self[NameObject('/Count')] = NumberObject(self[NameObject('/Count')] + 1)
+        if collapse:
+            self[NameObject('/Count')] = NumberObject(self[NameObject('/Count')] - 1)
+        else:
+            self[NameObject('/Count')] = NumberObject(self[NameObject('/Count')] + 1)
 
         if prev:
             prevRef = pdf.getReference(prev)
